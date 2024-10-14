@@ -1,0 +1,300 @@
+{
+    "behaviours": [
+      {
+        "index": 200,
+        "name": "Aggression",
+        "description": "Determines how likely the character is to attack or engage in combat.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Passive" },
+          { "value": 1, "name": "Defensive" },
+          { "value": 2, "name": "Aggressive" },
+          { "value": 3, "name": "Berserk" }
+        ]
+      },
+      {
+        "index": 201,
+        "name": "Restlessness",
+        "description": "Governs how much a character moves around versus staying in one location.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Stationary" },
+          { "value": 1, "name": "Occasional Movement" },
+          { "value": 2, "name": "Wanderer" },
+          { "value": 3, "name": "Restless" }
+        ]
+      },
+      {
+        "index": 202,
+        "name": "Stability",
+        "description": "How predictable the character's behavior is.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Predictable" },
+          { "value": 1, "name": "Occasionally Unstable" },
+          { "value": 2, "name": "Unpredictable" }
+        ]
+      },
+      {
+        "index": 203,
+        "name": "Persistence",
+        "description": "The tendency to stay focused on their goal versus getting distracted or giving up easily.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Easily Distracted" },
+          { "value": 1, "name": "Focused" },
+          { "value": 2, "name": "Highly Persistent" }
+        ]
+      },
+      {
+        "index": 204,
+        "name": "Curiosity",
+        "description": "How likely the character is to explore new areas or investigate unknown objects.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Uncurious" },
+          { "value": 1, "name": "Occasionally Curious" },
+          { "value": 2, "name": "Highly Curious" }
+        ]
+      },
+      {
+        "index": 205,
+        "name": "Caution",
+        "description": "How careful the character is when moving or interacting with dangerous environments.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Reckless" },
+          { "value": 1, "name": "Balanced" },
+          { "value": 2, "name": "Extremely Cautious" }
+        ]
+      },
+      {
+        "index": 206,
+        "name": "Loyalty",
+        "description": "The character’s tendency to remain loyal to allies or follow commands.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Unreliable" },
+          { "value": 1, "name": "Loyal" },
+          { "value": 2, "name": "Devoted" }
+        ]
+      },
+      {
+        "index": 207,
+        "name": "Fearfulness",
+        "description": "Governs how easily the character is frightened or flees in the face of danger.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Fearless" },
+          { "value": 1, "name": "Occasionally Afraid" },
+          { "value": 2, "name": "Cowardly" }
+        ]
+      },
+      {
+        "index": 208,
+        "name": "Bravery",
+        "description": "How willing the character is to take risks or face danger.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Cowardly" },
+          { "value": 1, "name": "Brave" },
+          { "value": 2, "name": "Heroic" }
+        ]
+      },
+      {
+        "index": 209,
+        "name": "Hostility",
+        "description": "Determines how hostile the character is towards others.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Friendly" },
+          { "value": 1, "name": "Neutral" },
+          { "value": 2, "name": "Hostile" }
+        ]
+      },
+      {
+        "index": 210,
+        "name": "Selfishness",
+        "description": "Governs how self-serving the character’s decisions are.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Selfless" },
+          { "value": 1, "name": "Balanced" },
+          { "value": 2, "name": "Selfish" }
+        ]
+      },
+      {
+        "index": 211,
+        "name": "Greed",
+        "description": "The character’s tendency to prioritize wealth or resources.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Content" },
+          { "value": 1, "name": "Opportunistic" },
+          { "value": 2, "name": "Greedy" }
+        ]
+      },
+      {
+        "index": 212,
+        "name": "Patience",
+        "description": "How patient the character is when waiting for outcomes or dealing with obstacles.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Impatient" },
+          { "value": 1, "name": "Moderately Patient" },
+          { "value": 2, "name": "Very Patient" }
+        ]
+      },
+      {
+        "index": 213,
+        "name": "Adaptability",
+        "description": "How well the character can adjust to changing situations or environments.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Rigid" },
+          { "value": 1, "name": "Flexible" },
+          { "value": 2, "name": "Highly Adaptable" }
+        ]
+      },
+      {
+        "index": 214,
+        "name": "Alertness",
+        "description": "How aware the character is of their surroundings.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Oblivious" },
+          { "value": 1, "name": "Aware" },
+          { "value": 2, "name": "Hyper-aware" }
+        ]
+      },
+      {
+        "index": 215,
+        "name": "Tactfulness",
+        "description": "How diplomatically the character approaches situations.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Blunt" },
+          { "value": 1, "name": "Diplomatic" },
+          { "value": 2, "name": "Manipulative" }
+        ]
+      },
+      {
+        "index": 216,
+        "name": "Obstinance",
+        "description": "How stubborn the character is in their behavior.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Flexible" },
+          { "value": 1, "name": "Stubborn" },
+          { "value": 2, "name": "Inflexible" }
+        ]
+      },
+      {
+        "index": 217,
+        "name": "Independence",
+        "description": "How likely the character is to act independently of a group.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Dependent" },
+          { "value": 1, "name": "Balanced" },
+          { "value": 2, "name": "Highly Independent" }
+        ]
+      },
+      {
+        "index": 218,
+        "name": "Aggressiveness",
+        "description": "A tendency to resolve conflicts through force or violence.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Peaceful" },
+          { "value": 1, "name": "Assertive" },
+          { "value": 2, "name": "Violent" }
+        ]
+      },
+      {
+        "index": 219,
+        "name": "Vengeance",
+        "description": "How likely the character is to seek revenge.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Forgiving" },
+          { "value": 1, "name": "Neutral" },
+          { "value": 2, "name": "Vengeful" }
+        ]
+      },
+      {
+        "index": 220,
+        "name": "Sociability",
+        "description": "Determines how social or withdrawn the character is.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        },
+        "subProperties": [
+          { "value": 0, "name": "Introverted" },
+          { "value": 1, "name": "Balanced" },
+          { "value": 2, "name": "Extroverted" }
+        ]
+      }
+    ]
+  }

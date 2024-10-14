@@ -1,0 +1,225 @@
+{
+    "characteristics": [
+      {
+        "index": 0,
+        "name": "Relationship",
+        "description": "Defines whether the sprite is a character (player, ally, adversary, neutral) or a static item.",
+        "defaults": {
+          "required": true,
+          "growth": "fixed"
+        },
+        "subProperties": [
+          {
+            "value": 0,
+            "name": "Self",
+            "description": "The player-controlled character."
+          },
+          {
+            "value": 1,
+            "name": "Ally",
+            "description": "A character allied with the player."
+          },
+          {
+            "value": 2,
+            "name": "Adversary",
+            "description": "A character working against the player."
+          },
+          {
+            "value": 3,
+            "name": "Neutral",
+            "description": "A character with no set agenda."
+          },
+          {
+            "value": 4,
+            "name": "StaticItem",
+            "description": "A static object in the environment, like walls, doors, or items."
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "name": "CharacterClass",
+        "description": "The class of the character, defining its skills and role in gameplay.",
+        "defaults": {
+          "required": true,
+          "growth": "fixed"
+        },
+        "subProperties": [
+          {
+            "value": 0,
+            "name": "Warrior",
+            "description": "A melee fighter with high physical strength."
+          },
+          {
+            "value": 1,
+            "name": "Mage",
+            "description": "A spellcaster with powerful magic."
+          },
+          {
+            "value": 2,
+            "name": "Rogue",
+            "description": "A stealthy fighter with high agility."
+          },
+          {
+            "value": 3,
+            "name": "Bard",
+            "description": "A versatile character using music to enhance allies or hinder enemies."
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "name": "CharacterLevel",
+        "description": "Represents the character's experience level and overall strength.",
+        "defaults": {
+          "required": true,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 3,
+        "name": "HealthPoints",
+        "description": "Defines the character's current and maximum health points.",
+        "defaults": {
+          "required": true,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 4,
+        "name": "ManaPoints",
+        "description": "Defines the character's current and maximum mana for casting spells.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 5,
+        "name": "Durability",
+        "description": "Represents the toughness or durability of a character or static item.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 6,
+        "name": "Stamina",
+        "description": "Represents the character's physical endurance for actions like running or using abilities.",
+        "defaults": {
+          "required": true,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 7,
+        "name": "Stealth",
+        "description": "Represents how well the character can avoid detection or move undetected.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 8,
+        "name": "Attractiveness",
+        "description": "Represents the character's charm or charisma, influencing social interactions.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 9,
+        "name": "Strength",
+        "description": "Represents the character's physical power for combat and carrying capacity.",
+        "defaults": {
+          "required": true,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 10,
+        "name": "Intelligence",
+        "description": "Affects the character's ability to cast spells, learn magic, and solve puzzles.",
+        "defaults": {
+          "required": true,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 11,
+        "name": "Dexterity",
+        "description": "Represents agility, affecting a character's ability to dodge or use ranged weapons.",
+        "defaults": {
+          "required": true,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 12,
+        "name": "Constitution",
+        "description": "Affects a character's overall toughness and health regeneration.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 13,
+        "name": "Charisma",
+        "description": "Affects social interactions and persuasion skills.",
+        "defaults": {
+          "required": false,
+          "growth": "variable"
+        }
+      },
+      {
+        "index": 14,
+        "name": "Affinity",
+        "description": "Represents the character's or static item's affinity for different elemental or mystical forces.",
+        "defaults": {
+          "required": false,
+          "growth": "fixed"
+        },
+        "subProperties": [
+          {
+            "value": 0,
+            "name": "Cold",
+            "description": "Affinity with cold magic or environments."
+          },
+          {
+            "value": 1,
+            "name": "Heat",
+            "description": "Affinity with fire or heat-based magic."
+          },
+          {
+            "value": 2,
+            "name": "Life",
+            "description": "Affinity with healing or life-giving powers."
+          },
+          {
+            "value": 3,
+            "name": "Death",
+            "description": "Affinity with necromantic or death-related magic."
+          },
+          {
+            "value": 4,
+            "name": "Wind",
+            "description": "Affinity with air and wind-based magic or environments."
+          },
+          {
+            "value": 5,
+            "name": "Water",
+            "description": "Affinity with water magic or aquatic environments."
+          },
+          {
+            "value": 6,
+            "name": "Earth",
+            "description": "Affinity with earth magic or environments related to nature."
+          }
+        ]
+      }
+    ]
+  }

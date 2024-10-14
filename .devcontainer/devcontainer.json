@@ -1,21 +1,26 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
 {
-  "name": "AssemblyScript Development Environment",
-  "dockerFile": "DockerFile",
-  "workspaceFolder": "/workspace/dungeon-crawler", // No change required if root is correct
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint"
-      ],
-      "settings": {
-        "files.autoSave": "afterDelay",
-        "terminal.integrated.shell.linux": "/bin/bash"
-      }
-    }
-  },
-  "postStartCommand": "npm run watch:asbuild",  // Runs the watcher after the container starts
-  "postAttachCommand": "npm run watch:asbuild", // Ensures watcher starts again when you attach to the container
-  "forwardPorts": [],
-  "mounts": []
+	"name": "Node.js",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+	"features": {
+		"ghcr.io/rchaganti/vsc-devcontainer-features/wabt:1": {},
+		"devwasm.azurecr.io/dev-wasm/dev-wasm-feature/wasmtime-wasi:0": {}
+	}
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
 }
