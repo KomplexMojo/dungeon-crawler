@@ -1,0 +1,21 @@
+{
+  "name": "AssemblyScript Development Environment",
+  "dockerFile": "DockerFile",
+  "workspaceFolder": "/workspace/dungeon-crawler", // No change required if root is correct
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint"
+      ],
+      "settings": {
+        "files.autoSave": "afterDelay",
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  "postStartCommand": "npm run watch:asbuild",  // Runs the watcher after the container starts
+  "postAttachCommand": "npm run watch:asbuild", // Ensures watcher starts again when you attach to the container
+  "forwardPorts": [],
+  "mounts": []
+}
