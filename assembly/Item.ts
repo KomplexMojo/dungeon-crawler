@@ -1,7 +1,7 @@
 import { Sprite } from "./Sprite";
 import { Property} from "./Property";
 import { SpriteTypeIndex } from "./Enumerations";
-import { AppearanceDefinition } from "./Appearance";
+import { AppearanceDefinition } from "./GameItemDefinition";
 
 /**
  * Item class derived from Sprite to represent different types of items (e.g., weapons, artifacts).

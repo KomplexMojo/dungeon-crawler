@@ -2,19 +2,19 @@
 
 
 export enum GrowthTypeIndex {
-  Static = 0 as u8,
+  Fixed = 0 as u8,
   Variable = 1 as u8
 }
 
 // Array to map enum values to their single-character representation (if applicable)
 export const GrowthTypeCharacter = new Array<string>(2);
-GrowthTypeCharacter[GrowthTypeIndex.Static] = "S";
+GrowthTypeCharacter[GrowthTypeIndex.Fixed] = "F";
 GrowthTypeCharacter[GrowthTypeIndex.Variable] = "V";
 
 // Array to map enum values to their string names
 export const GrowthTypeString = new Array<string>(2);
-GrowthTypeString[GrowthTypeIndex.Static] = "Static";
-GrowthTypeString[GrowthTypeIndex.Variable] = "Variable";
+GrowthTypeString[GrowthTypeIndex.Fixed] = "fixed";
+GrowthTypeString[GrowthTypeIndex.Variable] = "variable";
 
 export enum PropertyTypeIndex {
   Characteristic = 0 as u8,

@@ -17,7 +17,7 @@
 		{
 			"label": "Watch AssemblyScript",
 			"type": "shell",
-			"command": "npm run watch:asbuild", // This is the new watch task
+			"command": "npm run watch:asbuild",
 			"isBackground": true,
 			"problemMatcher": [],
 			"group": {

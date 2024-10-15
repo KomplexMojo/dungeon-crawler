@@ -8,7 +8,7 @@ import {
 } from "./Constants";
 import { Property } from "./Property";
 import { Character } from "./Character";
-import { AppearanceDefinition } from "./Appearance";
+import { AppearanceDefinition } from "./GameItemDefinition";
 
 export class Level extends Quadrilateral<u16> {
   rooms: Room[];

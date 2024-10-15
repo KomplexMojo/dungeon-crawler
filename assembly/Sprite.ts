@@ -1,6 +1,6 @@
 import { Property } from"./Property";
 import { Pixel } from"./Pixel";
-import { AppearanceDefinition } from"./Appearance";
+import { AppearanceDefinition } from "./GameItemDefinition";
 import {
   CHARACTERISTICS_PROPERTY_MAX_INDEX,
   BEHAVIOR_PROPERTY_MIN_INDEX,
@@ -36,12 +36,12 @@ export class Sprite {
    */
   initializePixelRepresentation(): Array<Array<Pixel>> {
     const pixelArray = new Array<Array<Pixel>>(
-      this.appearance.pixelData.length
+      this.appearance.visualization.length
     );
-    for (let i = 0; i < this.appearance.pixelData.length; i++) {
-      pixelArray[i] = new Array<Pixel>(this.appearance.pixelData[i].length);
-      for (let j = 0; j < this.appearance.pixelData[i].length; j++) {
-        const pixelType = this.appearance.pixelData[i][j]
+    for (let i = 0; i < this.appearance.visualization.length; i++) {
+      pixelArray[i] = new Array<Pixel>(this.appearance.visualization[i].length);
+      for (let j = 0; j < this.appearance.visualization[i].length; j++) {
+        const pixelType = this.appearance.visualization[i][j]
           ? PixelTypeIndex.Visual
           : PixelTypeIndex.Data;
         pixelArray[i][j] = new Pixel(pixelType); // Initialize the pixel type
@@ -189,7 +189,7 @@ export class Sprite {
     }
 
     console.log(`Read appearance data from visual pixels.`);
-    return new AppearanceDefinition(this.spriteType, visualPixels);
+    return new AppearanceDefinition();
   }
 
   readDataFromPixels(): u8[] {

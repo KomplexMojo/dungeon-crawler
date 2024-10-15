@@ -10,6 +10,14 @@ export abstract class Result<T> {
    * Implemented by subclasses.
    */
   abstract isOk(): bool;
+
+  /**
+   * Indicates whether the result is an error.
+   * Implemented by subclasses.
+   */
+  isErr(): bool {
+    return !this.isOk(); // If it's not Ok, it must be an error
+  }
 }
 
 /**
@@ -32,10 +40,28 @@ export class Ok<T> extends Result<T> {
 }
 
 /**
+ * Represents a successful result with no value (void).
+ */
+export class OkVoid extends Result<void> {
+  /**
+   * Constructor for OkVoid.
+   */
+  constructor() {
+    super();
+  }
+
+  /**
+   * Always returns true for OkVoid.
+   */
+  isOk(): bool {
+    return true;
+  }
+}
+
+/**
  * Represents an error result containing an error message.
  */
 export class Err<T = any> extends Result<T> {
-  // Making Err generic for consistency
   readonly error: string;
 
   constructor(error: string) {
@@ -49,22 +75,4 @@ export class Err<T = any> extends Result<T> {
   isOk(): bool {
     return false;
   }
-}
-
-/**
- * Type guard to check if Result is Ok.
- * @param result - The Result instance to check.
- * @returns True if Result is Ok, false otherwise.
- */
-export function isOkResult<T>(result: Result<T>): bool {
-  return result instanceof Ok;
-}
-
-/**
- * Type guard to check if Result is Err.
- * @param result - The Result instance to check.
- * @returns True if Result is Err, false otherwise.
- */
-export function isErrResult<T>(result: Result<T>): bool {
-  return result instanceof Err;
 }

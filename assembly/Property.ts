@@ -8,7 +8,7 @@ import {
   BEHAVIOR_PROPERTY_MAX_INDEX,
 } from "./Constants";
 import { Pixel } from "./Pixel";
-import { SubProperty } from "./SubProperty";
+import { SubProperty } from "./GameItemDefinition";
 import { JSON } from "assemblyscript-json/assembly";
 
 export class Property {

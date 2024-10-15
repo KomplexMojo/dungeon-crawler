@@ -7,7 +7,7 @@ import {
   SpriteTypeIndex,
   PropertyTypeIndex,
 } from "./Enumerations";
-import { AppearanceDefinition } from "./Appearance";
+import { AppearanceDefinition } from "./GameItemDefinition";
 import { Quadrilateral } from "./Quadrilateral";
 import { DEFAULT_BLOCK_SIZE } from "./Constants";
 import { Door } from "./Door";
@@ -242,13 +242,7 @@ export class Room extends Quadrilateral<u16> {
 
       if (this.isValidFloorTile(randomX, randomY)) {
         const npcSprite = new Character(
-          characterType,
-          SpriteTypeIndex.Character,
-          this.topLeftX + randomX * <u16>DEFAULT_BLOCK_SIZE,
-          this.topLeftY + randomY * <u16>DEFAULT_BLOCK_SIZE,
-          this.appearance[SpriteTypeIndex.Character],
-          this.getRandomCharacteristics(), // Random characteristics
-          this.getRandomBehaviours() // Random behaviours
+          SpriteTypeIndex.Character
         );
 
         this.addSprite(npcSprite, randomY, randomX);
@@ -270,13 +264,7 @@ export class Room extends Quadrilateral<u16> {
 
       if (this.isValidFloorTile(randomX, randomY)) {
         const playerSprite = new Character(
-          CharacterTypeIndex.Self, // Player-controlled character
-          SpriteTypeIndex.Character,
-          this.topLeftX + randomX * <u16>DEFAULT_BLOCK_SIZE,
-          this.topLeftY + randomY * <u16>DEFAULT_BLOCK_SIZE,
-          this.appearance[SpriteTypeIndex.Character],
-          this.getPlayerCharacteristics(), // Characteristics for player character
-          this.getPlayerBehaviours() // Behaviours for player character
+          SpriteTypeIndex.Character
         );
 
         this.addSprite(playerSprite, randomY, randomX);

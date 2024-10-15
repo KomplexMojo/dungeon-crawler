@@ -8,7 +8,7 @@
     "build:release": "npx asc assembly/*.ts --target release --disableWarning --outFile build/release.wasm",
     "build": "npm run build:debug",
     "watch:asbuild": "chokidar 'assembly/**/*.ts' -c 'npm run build:debug'",
-    "test": "mocha --verbose",
+    "test": "asc assembly/*.ts --target debug --disableWarning --outFile build/debug.wasm && mocha --verbose ",
     "build-and-test": "npm run build && npm test",
     "start": "npx serve ."
   },
@@ -16,7 +16,8 @@
   "license": "ISC",
   "devDependencies": {
     "assemblyscript": "^0.27.30",
-    "assemblyscript-json": "^1.1.0"
+    "assemblyscript-json": "^1.1.0",
+    "mocha": "^10.7.3"
   },
   "type": "module",
   "exports": {

@@ -1,6 +1,4 @@
-// ResultUtils.ts
-
-import { Ok, Err, Result, isOkResult, isErrResult } from "./Result";
+import { Ok, Err, Result } from "./Result";
 
 /**
  * Chains two Result operations, propagating errors if any.
@@ -12,15 +10,15 @@ export function andThen<T, U>(
   first: Result<T>,
   second: (value: T) => Result<U>
 ): Result<U> {
-  if (isErrResult(first)) {
-    // Cast first to Err<T> to access the 'error' property
-    const errorResult = <Err<T>>first;
+  if (first.isErr()) {
+    // Access the 'error' property directly since the result is Err
+    const errorResult = first as Err<T>;
     return new Err<U>(errorResult.error);
   }
 
-  if (isOkResult(first)) {
-    // Cast first to Ok<T> to access the 'value' property
-    const okResult = <Ok<T>>first;
+  if (first.isOk()) {
+    // Access the 'value' property directly since the result is Ok
+    const okResult = first as Ok<T>;
     return second(okResult.value);
   }
 
@@ -38,15 +36,15 @@ export function map<T, U>(
   result: Result<T>,
   mapper: (value: T) => U
 ): Result<U> {
-  if (isErrResult(result)) {
-    // Cast result to Err<T> to access the 'error' property
-    const errorResult = <Err<T>>result;
+  if (result.isErr()) {
+    // Access the 'error' property directly since the result is Err
+    const errorResult = result as Err<T>;
     return new Err<U>(errorResult.error);
   }
 
-  if (isOkResult(result)) {
-    // Cast result to Ok<T> to access the 'value' property
-    const okResult = <Ok<T>>result;
+  if (result.isOk()) {
+    // Access the 'value' property directly since the result is Ok
+    const okResult = result as Ok<T>;
     const mappedValue: U = mapper(okResult.value);
     return new Ok<U>(mappedValue);
   }

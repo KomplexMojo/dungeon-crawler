@@ -1,61 +1,60 @@
 // ArrayUtils.ts
 
-import { Value, Obj, Arr } from "assemblyscript-json/assembly/JSON"; // Adjust the import based on your file structure
-import { Ok, Err, Result, isOkResult, isErrResult } from "./Result";
+import { JSON } from "assemblyscript-json/assembly";
+import { Result, Ok, Err } from "./Result";
+import { castOk, castErr } from "./castHelpers";
 
 /**
- * Loads an array of objects from a JSON array using a provided parser function.
- * @param jsonArr - The JSON array.
- * @param parser - The function to parse each Obj.
- * @param context - Optional context for error messages.
- * @returns A Result containing the array of parsed objects or an error message.
+ * Generic function to load an array of items from a JSON array.
+ * @param arr - The JSON array (`JSON.Arr`).
+ * @param parser - A function that parses each JSON object (`JSON.Obj`) into an item of type T.
+ * @param context - Context string for error messages.
+ * @returns A `Result` containing either the array of items (`T[]`) or an error message (`Err`).
  */
 export function loadArray<T>(
-  jsonArr: Arr,
-  parser: (item: Obj) => Result<T>,
-  context: string = ""
+  arr: JSON.Arr,
+  parser: (itemJson: JSON.Obj) => Result<T>,
+  context: string
 ): Result<T[]> {
-  const items = jsonArr.valueOf();
-  const resultArray = new Array<T>();
+  let result: T[] = [];
 
-  for (let i = 0; i < items.length; i++) {
-    const item: Value =  items[i];
+  // Retrieve the underlying Array<Value>
+  let values = arr.valueOf();
 
-    // Check if the item is an object
-    if (!item.isObj) {
+  for (let i: i32 = 0; i < values.length; i++) {
+    let jsonValue = values[i];
+
+    // Check if the Value is a JSON object
+    if (!jsonValue.isObj) {
       return new Err<T[]>(
-        `Invalid item at index ${i} in array.${context ? ` Context: ${context}` : ""}`
+        `${context}: Item at index ${i} is not a valid JSON object.`
       );
     }
 
-    // Safe casting using 'instanceof'
-    if (item instanceof Obj) {
-      const obj = <Obj>item;
-      const parsedResult = parser(obj);
+    // Cast the Value to JSON.Obj
+    let itemObj = jsonValue as JSON.Obj;
 
-      // Check if parsing resulted in an error
-      if (isErrResult(parsedResult)) {
-        // Explicitly cast parsedResult to Err<T> to access 'error'
-        const errorResult = <Err<T>>parsedResult;
-        return new Err<T[]>(
-          `Error parsing item at index ${i}: ${errorResult.error}`
-        );
-      }
+    // Parse the JSON.Obj using the provided parser function
+    let parsedResult = parser(itemObj);
 
-      // Check if parsing is successful
-      if (isOkResult(parsedResult)) {
-        // Explicitly cast parsedResult to Ok<T> to access 'value'
-        const okResult = <Ok<T>>parsedResult;
-        resultArray.push(okResult.value);
-      }
-    } else {
-      // This block should theoretically never be reached due to the 'isObj' check
+    // If parsing resulted in an error, propagate the error with context
+    if (castErr<T>(parsedResult) != null) {
       return new Err<T[]>(
-        `Item at index ${i} is marked as object but is not an instance of Obj.${context ? ` Context: ${context}` : ""}`
+        `${context}: Item at index ${i} failed to parse. Error: ${(parsedResult as Err<T>).error}`
       );
     }
+
+    // Extract the successful value and add it to the result array
+    let okResult = castOk<T>(parsedResult);
+    if (okResult == null) {
+      return new Err<T[]>(
+        `${context}: Unexpected error extracting value from parsed result at index ${i}.`
+      );
+    }
+
+    result.push(okResult.value);
   }
 
-  // If all items are parsed successfully, return the array wrapped in Ok
-  return new Ok<T[]>(resultArray);
+  // All items parsed successfully
+  return new Ok<T[]>(result);
 }
