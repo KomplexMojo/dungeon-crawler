@@ -1,13 +1,8 @@
 import { GrowthTypeIndex, GrowthTypeString } from "./Enumerations";
-import { Result, Ok, Err, OkVoid} from "./Result";
+import { Result, Ok, Err, OkVoid, castErr, castOk } from "./Result";
 import { JSON } from "assemblyscript-json/assembly";
-import { castOk, castErr } from "./ResultHelpers";
 import { loadArray } from "./ArrayUtils";
-import {
-  getSafeU8,
-  getSafeString,
-  parseBool2DArray,
-} from "./JSONUtils";
+import { getSafeU8, getSafeString, parseBool2DArray } from "./JSONUtils";
 
 // ---------------------------------------------
 // Base GameItemDefinition Class
@@ -527,6 +522,487 @@ export class SubProperty {
       "description": "${escapedDescription}" 
     }`;
   }
+}
+
+// Trigger.ts
+
+/**
+ * Represents a trigger for an event.
+ */
+export class Trigger {
+  type: string;
+  action: string;
+
+  constructor(type: string, action: string) {
+    this.type = type;
+    this.action = action;
+  }
+
+  /**
+   * Factory method to create a Trigger instance from a JSON object.
+   * @param jsonObj - The JSON object representing a Trigger.
+   * @returns A Result containing either a new Trigger instance or an error message.
+   */
+  static fromJSON(jsonObj: JSON.Obj | null): Result<Trigger> {
+    if (jsonObj == null) {
+      return new Err<Trigger>("Invalid data for Trigger: JSON object is null.");
+    }
+
+    const typeObj = jsonObj.getString("type");
+    if (typeObj == null) {
+      return new Err<Trigger>("Trigger type not specified.");
+    }
+    const type: string = typeObj.valueOf();
+
+    const actionObj = jsonObj.getString("action");
+    if (actionObj == null) {
+      return new Err<Trigger>("Trigger action not specified.");
+    }
+    const action: string = actionObj.valueOf();
+
+    return new Ok<Trigger>(new Trigger(type, action));
+  }
+
+  /**
+   * Serializes the Trigger instance to a JSON string.
+   * @returns A JSON string representing the Trigger.
+   */
+  toJSON(): string {
+    return `{ "type": "${escapeString(this.type)}", "action": "${escapeString(
+      this.action
+    )}" }`;
+  }
+}
+
+// Effect.ts
+
+/**
+ * Represents an effect of an event.
+ */
+export class Effect {
+  type: string;
+  parameters: JSON.Obj | null;
+
+  constructor(type: string, parameters: JSON.Obj | null) {
+    this.type = type;
+    this.parameters = parameters;
+  }
+
+  /**
+   * Factory method to create an Effect instance from a JSON object.
+   * @param jsonObj - The JSON object representing an Effect.
+   * @returns A Result containing either a new Effect instance or an error message.
+   */
+  static fromJSON(jsonObj: JSON.Obj | null): Result<Effect> {
+    if (jsonObj == null) {
+      return new Err<Effect>("Invalid data for Effect: JSON object is null.");
+    }
+
+    const typeObj = jsonObj.getString("type");
+    if (typeObj == null) {
+      return new Err<Effect>("Effect type not specified.");
+    }
+    const type: string = typeObj.valueOf();
+
+    const parametersObj = jsonObj.getObj("parameters");
+    // Parameters can be optional or empty
+    return new Ok<Effect>(new Effect(type, parametersObj));
+  }
+
+  /**
+   * Serializes the Effect instance to a JSON string.
+   * @returns A JSON string representing the Effect.
+   */
+  toJSON(): string {
+    let parametersJson =
+      this.parameters != null ? this.parameters.toString() : "{}";
+    return `{ "type": "${escapeString(
+      this.type
+    )}", "parameters": ${parametersJson} }`;
+  }
+}
+
+// Condition.ts
+
+/**
+ * Represents a condition for an event.
+ */
+export class Condition {
+  type: string;
+  parameters: JSON.Obj | null;
+
+  constructor(type: string, parameters: JSON.Obj | null) {
+    this.type = type;
+    this.parameters = parameters;
+  }
+
+  /**
+   * Factory method to create a Condition instance from a JSON object.
+   * @param jsonObj - The JSON object representing a Condition.
+   * @returns A Result containing either a new Condition instance or an error message.
+   */
+  static fromJSON(jsonObj: JSON.Obj | null): Result<Condition> {
+    if (jsonObj == null) {
+      return new Err<Condition>(
+        "Invalid data for Condition: JSON object is null."
+      );
+    }
+
+    const typeObj = jsonObj.getString("type");
+    if (typeObj == null) {
+      return new Err<Condition>("Condition type not specified.");
+    }
+    const type: string = typeObj.valueOf();
+
+    const parametersObj = jsonObj.getObj("parameters");
+    // Parameters can be optional or empty
+    return new Ok<Condition>(new Condition(type, parametersObj));
+  }
+
+  /**
+   * Serializes the Condition instance to a JSON string.
+   * @returns A JSON string representing the Condition.
+   */
+  toJSON(): string {
+    let parametersJson =
+      this.parameters != null ? this.parameters.toString() : "{}";
+    return `{ "type": "${escapeString(
+      this.type
+    )}", "parameters": ${parametersJson} }`;
+  }
+}
+
+// AppliesTo.ts
+
+/**
+ * Represents the target of an event.
+ */
+export class AppliesTo {
+  index: u8;
+  name: string;
+  subProperties: SubProperty[] | null;
+
+  constructor(index: u8, name: string, subProperties: SubProperty[] | null) {
+    this.index = index;
+    this.name = name;
+    this.subProperties = subProperties;
+  }
+
+  /**
+   * Factory method to create an AppliesTo instance from a JSON object.
+   * @param jsonObj - The JSON object representing an AppliesTo.
+   * @returns A Result containing either a new AppliesTo instance or an error message.
+   */
+  static fromJSON(jsonObj: JSON.Obj | null): Result<AppliesTo> {
+    if (jsonObj == null) {
+      return new Err<AppliesTo>("Invalid data for AppliesTo: JSON object is null.");
+    }
+
+    // Parse 'index'
+    const indexResult: Result<u8> = getSafeU8(jsonObj, "index", "AppliesTo");
+    const errorIndexResult: Err<u8> | null = castErr<u8>(indexResult);
+    if (errorIndexResult != null) {
+      return new Err<AppliesTo>(errorIndexResult.error);
+    }
+
+    const okIndexResult: Ok<u8> | null = castOk<u8>(indexResult);
+    if (okIndexResult == null) {
+      return new Err<AppliesTo>("Unexpected error parsing 'index' in AppliesTo.");
+    }
+
+    const index: u8 = okIndexResult.value;
+
+    // Parse 'name'
+    const nameResult: Result<string> = getSafeString(jsonObj, "name", "AppliesTo");
+    const errorNameResult: Err<string> | null = castErr<string>(nameResult);
+    if (errorNameResult != null) {
+      return new Err<AppliesTo>(errorNameResult.error);
+    }
+
+    const okNameResult: Ok<string> | null = castOk<string>(nameResult);
+    if (okNameResult == null) {
+      return new Err<AppliesTo>("Unexpected error parsing 'name' in AppliesTo.");
+    }
+
+    const name: string = okNameResult.value;
+
+    // Parse 'subProperties'
+    const subPropsValue = jsonObj.get("subProperties");
+    let subProperties: SubProperty[] | null = null;
+
+    if (subPropsValue != null) {
+      if (!subPropsValue.isArr) {
+        return new Err<AppliesTo>(
+          "'subProperties' field is not an array in AppliesTo."
+        );
+      }
+
+      const subPropsArr = subPropsValue as JSON.Arr;
+      const subPropsResult: Result<SubProperty[]> = loadArray<SubProperty>(
+        subPropsArr,
+        (subPropJson: JSON.Obj) => SubProperty.fromJSON(subPropJson),
+        "AppliesTo"
+      );
+
+      const errorSubPropsResult: Err<SubProperty[]> | null = castErr<SubProperty[]>(subPropsResult);
+      if (errorSubPropsResult != null) {
+        return new Err<AppliesTo>(errorSubPropsResult.error);
+      }
+
+      const okSubPropsResult: Ok<SubProperty[]> | null = castOk<SubProperty[]>(subPropsResult);
+      if (okSubPropsResult == null) {
+        return new Err<AppliesTo>(
+          "Unexpected error parsing 'subProperties' in AppliesTo."
+        );
+      }
+
+      subProperties = okSubPropsResult.value;
+    }
+
+    return new Ok<AppliesTo>(new AppliesTo(index, name, subProperties));
+  }
+
+  /**
+   * Serializes the AppliesTo instance to a JSON string.
+   * @returns A JSON string representing the AppliesTo.
+   */
+  toJSON(): string {
+    let subPropertiesJson = this.subProperties != null ? serializeSubProperties(this.subProperties) : "null";
+    return `{ 
+      "index": ${this.index}, 
+      "name": "${escapeString(this.name)}", 
+      "subProperties": ${subPropertiesJson} 
+    }`;
+  }
+}
+
+/**
+ * Represents an event in the game.
+ */
+export class EventDefinition extends GameItemDefinition {
+  triggers: Trigger[] | null;
+  effects: Effect[] | null;
+  conditions: Condition[] | null;
+  appliesTo: AppliesTo | null;
+
+  constructor() {
+    super();
+    this.triggers = null;
+    this.effects = null;
+    this.conditions = null;
+    this.appliesTo = null;
+  }
+
+  /**
+   * Loads Event-specific properties from JSON.
+   * @param jsonObj - The JSON object representing an EventDefinition.
+   * @returns A Result indicating success or containing an error message.
+   */
+  loadSpecificFromJSON(jsonObj: JSON.Obj | null): Result<void> {
+    if (jsonObj == null) {
+      return new Err<void>(
+        "Invalid data for EventDefinition: JSON object is null."
+      );
+    }
+
+    // Parse 'triggers'
+    const triggersValue = jsonObj.get("triggers");
+    if (triggersValue == null || !triggersValue.isArr) {
+      return new Err<void>(
+        "'triggers' field is missing or is not an array in EventDefinition."
+      );
+    }
+
+    const triggersArr = triggersValue as JSON.Arr;
+    const triggersResult: Result<Trigger[]> = loadArray<Trigger>(
+      triggersArr,
+      (triggerJson: JSON.Obj) => Trigger.fromJSON(triggerJson),
+      "EventDefinition.triggers"
+    );
+
+    const errorTriggersResult: Err<Trigger[]> | null =
+      castErr<Trigger[]>(triggersResult);
+    if (errorTriggersResult != null) {
+      return new Err<void>(errorTriggersResult.error);
+    }
+
+    const okTriggersResult: Ok<Trigger[]> | null =
+      castOk<Trigger[]>(triggersResult);
+    if (okTriggersResult == null) {
+      return new Err<void>(
+        "Unexpected error parsing 'triggers' in EventDefinition."
+      );
+    }
+
+    this.triggers = okTriggersResult.value;
+
+    // Parse 'effects'
+    const effectsValue = jsonObj.get("effects");
+    if (effectsValue == null || !effectsValue.isArr) {
+      return new Err<void>(
+        "'effects' field is missing or is not an array in EventDefinition."
+      );
+    }
+
+    const effectsArr = effectsValue as JSON.Arr;
+    const effectsResult: Result<Effect[]> = loadArray<Effect>(
+      effectsArr,
+      (effectJson: JSON.Obj) => Effect.fromJSON(effectJson),
+      "EventDefinition.effects"
+    );
+
+    const errorEffectsResult: Err<Effect[]> | null =
+      castErr<Effect[]>(effectsResult);
+    if (errorEffectsResult != null) {
+      return new Err<void>(errorEffectsResult.error);
+    }
+
+    const okEffectsResult: Ok<Effect[]> | null =
+      castOk<Effect[]>(effectsResult);
+    if (okEffectsResult == null) {
+      return new Err<void>(
+        "Unexpected error parsing 'effects' in EventDefinition."
+      );
+    }
+
+    this.effects = okEffectsResult.value;
+
+    // Parse 'conditions'
+    const conditionsValue = jsonObj.get("conditions");
+    if (conditionsValue == null || !conditionsValue.isArr) {
+      return new Err<void>(
+        "'conditions' field is missing or is not an array in EventDefinition."
+      );
+    }
+
+    const conditionsArr = conditionsValue as JSON.Arr;
+    const conditionsResult: Result<Condition[]> = loadArray<Condition>(
+      conditionsArr,
+      (conditionJson: JSON.Obj) => Condition.fromJSON(conditionJson),
+      "EventDefinition.conditions"
+    );
+
+    const errorConditionsResult: Err<Condition[]> | null =
+      castErr<Condition[]>(conditionsResult);
+    if (errorConditionsResult != null) {
+      return new Err<void>(errorConditionsResult.error);
+    }
+
+    const okConditionsResult: Ok<Condition[]> | null =
+      castOk<Condition[]>(conditionsResult);
+    if (okConditionsResult == null) {
+      return new Err<void>(
+        "Unexpected error parsing 'conditions' in EventDefinition."
+      );
+    }
+
+    this.conditions = okConditionsResult.value;
+
+    // Parse 'appliesTo'
+    const appliesToValue = jsonObj.get("appliesTo");
+    if (appliesToValue == null || !appliesToValue.isObj) {
+      return new Err<void>(
+        "'appliesTo' field is missing or is not an object in EventDefinition."
+      );
+    }
+
+    const appliesToObj = appliesToValue as JSON.Obj;
+    const appliesToResult: Result<AppliesTo> = AppliesTo.fromJSON(appliesToObj);
+
+    const errorAppliesToResult: Err<AppliesTo> | null =
+      castErr<AppliesTo>(appliesToResult);
+    if (errorAppliesToResult != null) {
+      return new Err<void>(errorAppliesToResult.error);
+    }
+
+    const okAppliesToResult: Ok<AppliesTo> | null =
+      castOk<AppliesTo>(appliesToResult);
+    if (okAppliesToResult == null) {
+      return new Err<void>(
+        "Unexpected error parsing 'appliesTo' in EventDefinition."
+      );
+    }
+
+    this.appliesTo = okAppliesToResult.value;
+
+    return new OkVoid();
+  }
+
+  /**
+   * Serializes the EventDefinition instance to a JSON string.
+   * @returns A JSON string representing the EventDefinition.
+   */
+  toJSON(): string {
+    let triggersJson = serializeTriggers(this.triggers);
+    let effectsJson = serializeEffects(this.effects);
+    let conditionsJson = serializeConditions(this.conditions);
+    let appliesToJson =
+      this.appliesTo != null ? this.appliesTo.toJSON() : "null";
+    let defaultsJson = `{ "required": ${this.defaults.required}, "growth": "${
+      GrowthTypeString[this.defaults.growth]
+    }" }`;
+    let propertiesJson = serializeSubProperties(this.properties);
+
+    return `{ 
+      "index": ${this.index}, 
+      "name": "${escapeString(this.name)}", 
+      "description": "${escapeString(this.description)}", 
+      "defaults": ${defaultsJson},
+      "triggers": ${triggersJson},
+      "effects": ${effectsJson},
+      "conditions": ${conditionsJson},
+      "appliesTo": ${appliesToJson},
+      "properties": ${propertiesJson}
+    }`;
+  }
+}
+
+/**
+ * Serializes an array of Trigger objects to a JSON string.
+ * @param triggers - The array of Trigger objects.
+ * @returns A JSON string representing the array.
+ */
+function serializeTriggers(triggers: Trigger[] | null): string {
+  if (triggers == null) return "null";
+  let jsonStr = "[";
+  for (let i = 0; i < triggers.length; i++) {
+    jsonStr += triggers[i].toJSON();
+    if (i < triggers.length - 1) jsonStr += ",";
+  }
+  jsonStr += "]";
+  return jsonStr;
+}
+
+/**
+ * Serializes an array of Effect objects to a JSON string.
+ * @param effects - The array of Effect objects.
+ * @returns A JSON string representing the array.
+ */
+function serializeEffects(effects: Effect[] | null): string {
+  if (effects == null) return "null";
+  let jsonStr = "[";
+  for (let i = 0; i < effects.length; i++) {
+    jsonStr += effects[i].toJSON();
+    if (i < effects.length - 1) jsonStr += ",";
+  }
+  jsonStr += "]";
+  return jsonStr;
+}
+
+/**
+ * Serializes an array of Condition objects to a JSON string.
+ * @param conditions - The array of Condition objects.
+ * @returns A JSON string representing the array.
+ */
+function serializeConditions(conditions: Condition[] | null): string {
+  if (conditions == null) return "null";
+  let jsonStr = "[";
+  for (let i = 0; i < conditions.length; i++) {
+    jsonStr += conditions[i].toJSON();
+    if (i < conditions.length - 1) jsonStr += ",";
+  }
+  jsonStr += "]";
+  return jsonStr;
 }
 
 /**

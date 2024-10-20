@@ -2,7 +2,7 @@ import { Door } from "./Door";
 import { HallwayTile } from "./HallwayTile";
 import { DEFAULT_BLOCK_SIZE } from "./Constants";
 import { Property } from "./Property";
-import { AppearanceDefinition, PixelPoint } from "./Appearance";
+import { AppearanceDefinition} from "./GameItemDefinition";
 
 /// <reference types="assemblyscript" />
 export class Hallway {

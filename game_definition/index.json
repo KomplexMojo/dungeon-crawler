@@ -1,0 +1,102 @@
+{
+  "appearances": [
+    {
+      "index": 0,
+      "name": "Self",
+      "description": "Defines the visual appearance for Self.",
+      "defaults": {
+        "required": true,
+        "growth": "fixed"
+      },
+      "properties": [],
+      "visualization": [
+        [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0]
+      ]
+    }
+  ],
+  "characteristics": [
+    {
+      "index": 40,
+      "name": "Relationship",
+      "description": "Defines whether the sprite is a character (player, ally, adversary, neutral) or a static item.",
+      "defaults": {
+        "required": true,
+        "growth": "fixed"
+      },
+      "properties": [
+        {
+          "value": 0,
+          "name": "Self",
+          "description": "The player-controlled character."
+        }
+      ]
+    }
+  ],
+  "behaviours": [
+    {
+      "index": 90,
+      "name": "Aggression",
+      "description": "Determines how likely the character is to attack or engage in combat.",
+      "defaults": {
+        "required": false,
+        "growth": "variable"
+      },
+      "properties": [
+        {
+          "value": 0,
+          "name": "Passive",
+          "description": "Avoids combat and doesn't initiate attacks."
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "index": 140,
+      "name": "EquipItem",
+      "description": "Equips and item in inventory.",
+      "defaults": {
+        "required": false,
+        "growth": "variable"
+      },
+      "properties": [133, 172, 220]
+    }
+  ],
+  "triggers": [
+    {
+      "index": 190,
+      "name": "Input",
+      "description": "User input actions like up, down, left, right.",
+      "defaults": {
+        "required": true,
+        "growth": "fixed"
+      },
+      "properties": []
+    }
+  ],
+  "effects": [
+    {
+      "index": 210,
+      "name": "CreateItem",
+      "description": "Creates a new item in the inventory.",
+      "defaults": {
+        "required": true,
+        "growth": "fixed"
+      },
+      "properties": []
+    }
+  ],
+  "conditions": [
+    {
+      "index": 230,
+      "name": "CanMove",
+      "description": "Checks if the character can move.",
+      "defaults": {
+        "required": true,
+        "growth": "fixed"
+      },
+      "properties": []
+    }
+  ]
+}

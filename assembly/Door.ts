@@ -1,7 +1,7 @@
 import { Sprite } from "./Sprite";
 import { Property } from "./Property";
 import { PropertyTypeIndex, SpriteTypeIndex, SpriteTypeName } from "./Enumerations";
-import { AppearanceDefinition } from "./Appearance";
+import { AppearanceDefinition } from "./GameItemDefinition"
 import {
   CHARACTERISTICS_PROPERTY_MAX_INDEX,
   MAX_STORED_CHARACTERISTICS
